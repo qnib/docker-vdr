@@ -1,4 +1,7 @@
-# Start
+docker-vdr
+==========
+
+Docker image to run vdr/vdradmin within a Docker container
 
 The most fun it's going to be if one uses pipework to pin a dedicated IP to the vdr instance.
 I use docker-spotter for that purpose, delicious...
