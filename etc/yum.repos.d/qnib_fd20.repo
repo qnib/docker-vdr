@@ -1,0 +1,6 @@
+[qnib-fd20]
+name=QNIBInc FD20 Extra
+failovermethod=priority
+baseurl=http://smith.rmz.uni-lueneburg.de/repo/fedora/20/extra/
+enabled=1
+gpgcheck=0
