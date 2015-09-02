@@ -1,5 +1,5 @@
 ###### Supervisord image
-FROM qnib/supervisor:fd22
+FROM qnib/consul:fd22
 
 RUN groupdel video; groupadd -g 44 video
 RUN useradd -u 1000 vdr
