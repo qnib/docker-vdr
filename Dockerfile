@@ -1,13 +1,16 @@
 ###### Supervisord image
 FROM qnib/consul:fd22
 
+ENV LANG de_DE.UTF-8 \
+    VDRADMIN_VER=3.6.10
 RUN groupdel video; groupadd -g 44 video
 RUN useradd -u 1000 vdr
 RUN dnf install -y vdr vdr-streamdev-server vdr-epgsearch vdr-vnsiserver
 
-#RUN dnf install -y vdradmin-am
-
-ENV LANG de_DE.UTF-8
+#RUN curl -fsL http://projects.vdr-developer.org/git/vdradmin-am.git/snapshot/vdradmin-am-${VDRADMIN_VER}.tar.gz|tar xzf - -C /opt/ && \
+#    mv /opt/vdradmin-am-${VERADMIN_VER} /opt/vdradmin-am && \
+#    cd /opt/vdradmin-am/ && sed -i'' -e 's/read.*/REPLY=y/' install.sh  && \
+#    ./install.sh
 
 ## channels
 ADD etc/supervisord.d/vdr.ini /etc/supervisord.d/vdr.ini
