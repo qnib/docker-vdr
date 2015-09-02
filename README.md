@@ -7,7 +7,10 @@ The most fun it's going to be if one uses pipework to pin a dedicated IP to the 
 I use docker-spotter for that purpose, delicious...
 
 ```
-docker run -d --privileged --name vdr -h vdr -v /boedde/video:/video -e VDR_DEVICE=1 -e LOG_LEVEL=1 --net=none qnib/vdr
+export TIMERS="-v /opt/vdr/conf/timers/:/opt/vdr/conf/timers/"
+export PLUGINS="-v /opt/vdr/plugins/:/opt/vdr/plugins/"
+export VIDEO="-v /boedde/video/:/video/"
+docker run -d --privileged --name=vdr -h vdr ${TIMERS} ${PLUGINS} ${VIDEO} --net=none -e VDR_DEVICE=1 qnib/vdr
 ```
 
 The following environment variables are useable:

@@ -1,26 +1,31 @@
 ###### Supervisord image
-FROM qnib/supervisor
-MAINTAINER "Christian Kniep <christian@qnib.org>"
-
-ADD etc/yum.repos.d/qnib_fd20.repo /etc/yum.repos.d/qnib_fd20.repo
+FROM qnib/supervisor:fd22
 
 RUN groupdel video; groupadd -g 44 video
 RUN useradd -u 1000 vdr
-RUN yum install -y vdr vdr-streamdev-server vdr-epgsearch vdr-vnsiserver5 
+RUN dnf install -y vdr vdr-streamdev-server vdr-epgsearch vdr-vnsiserver
 
-RUN yum install -y vdradmin-am
+#RUN dnf install -y vdradmin-am
 
 ENV LANG de_DE.UTF-8
 
 ## channels
-ADD etc/vdr/plugins/vnsiserver/allowed_hosts.conf /etc/vdr/plugins/vnsiserver/allowed_hosts.conf
 ADD etc/supervisord.d/vdr.ini /etc/supervisord.d/vdr.ini
-ADD etc/supervisord.d/vdradmin.ini /etc/supervisord.d/vdradmin.ini
+#ADD etc/supervisord.d/vdradmin.ini /etc/supervisord.d/vdradmin.ini
 
-ADD etc/vdr/setup.conf /etc/vdr/setup.conf
-ADD etc/vdr/channels.conf /etc/vdr/channels.conf
+RUN mkdir -p /opt/vdr/
+# vnsiserver
+ADD opt/vdr/plugins/vnsiserver/allowed_hosts.conf /opt/vdr/plugins/vnsiserver/allowed_hosts.conf
+RUN rm -rf /etc/vdr/plugins/vnsiserver; ln -s /opt/vdr/plugins/vnsiserver /etc/vdr/plugins/vnsiserver
+# epgsearch
+ADD opt/vdr/plugins/epgsearch/ /opt/vdr/plugins/epgsearch/
+RUN rm -rf /var/lib/vdr/data/epgsearch; ln -s /opt/vdr/plugins/epgsearch /var/lib/vdr/data/epgsearch
+# vdr-config
+ADD opt/vdr/conf/setup/setup.conf /opt/vdr/conf/setup/
+RUN rm -f /etc/vdr/setup.conf;ln -s /opt/vdr/conf/setup/setup.conf /etc/vdr/
+ADD opt/vdr/conf/channels/channels.conf /opt/vdr/conf/channels/
+RUN rm -f /etc/vdr/channels.conf;ln -s /opt/vdr/conf/channels/channels.conf /etc/vdr/
+ADD opt/vdr/conf/timers/timers.conf /opt/vdr/conf/timers/
+RUN rm -f /etc/vdr/timers.conf;ln -s /opt/vdr/conf/timers/timers.conf /etc/vdr/
 
 ADD opt/qnib/bin/start_vdr.sh /opt/qnib/bin/start_vdr.sh
-
-CMD [ "supervisord", "-c", "/etc/supervisord.conf" ]
-
