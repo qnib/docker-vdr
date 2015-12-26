@@ -1,0 +1,16 @@
+{
+  "services": [
+    {
+        "id": "vdr",
+        "name": "vdr",
+        "port": "6419",
+        "tags": [],
+        "checks": [
+            {
+               "script": "nmap 127.0.0.1 -PN -p 2003 | grep open",
+               "interval": "5s"
+            }
+       ]
+    }
+  ]
+}
