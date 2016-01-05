@@ -26,7 +26,7 @@ RUN rm -rf /etc/vdr/plugins/vnsiserver; ln -s /opt/vdr/plugins/vnsiserver /etc/v
 ADD opt/vdr/plugins/epgsearch/ /opt/vdr/plugins/epgsearch/
 RUN rm -rf /var/lib/vdr/data/epgsearch; ln -s /opt/vdr/plugins/epgsearch /var/lib/vdr/data/epgsearch
 # vdr-config
-ADD opt/vdr/conf/setup/setup.conf /etc/vdr
+ADD opt/vdr/conf/setup/setup.conf /opt/vdr/conf/setup/
 RUN rm -f /etc/vdr/setup.conf;ln -s /opt/vdr/conf/setup/setup.conf /etc/vdr/
 ADD opt/vdr/conf/channels/channels.conf /opt/vdr/conf/channels/
 RUN rm -f /etc/vdr/channels.conf;ln -s /opt/vdr/conf/channels/channels.conf /etc/vdr/
